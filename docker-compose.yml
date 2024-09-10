@@ -1,0 +1,22 @@
+services:
+  app:
+    container_name: blog-app
+    build: ./frontend
+    depends_on:
+      - backend
+
+  backend:
+    container_name: blog-backend
+    build: ./backend
+    env_file: .env.local
+
+  nginx:
+    container_name: blog-nginx
+    image: nginx:mainline-alpine
+    depends_on:
+      - app
+      - backend
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
