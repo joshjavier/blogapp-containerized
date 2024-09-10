@@ -1,5 +1,5 @@
-import axios from 'axios'
-const baseURL = '/api/blogs'
+import axios from './apiClient'
+const route = '/blogs'
 
 let token
 
@@ -8,7 +8,7 @@ const setToken = (newToken) => {
 }
 
 const getAll = async () => {
-  const response = await axios.get(baseURL)
+  const response = await axios.get(route)
   return response.data
 }
 
@@ -17,12 +17,12 @@ const create = async (newBlog) => {
     headers: { Authorization: `Bearer ${token}` },
   }
 
-  const response = await axios.post(baseURL, newBlog, config)
+  const response = await axios.post(route, newBlog, config)
   return response.data
 }
 
 const like = async (blog) => {
-  const response = await axios.put(`${baseURL}/${blog.id}`, {
+  const response = await axios.put(`${route}/${blog.id}`, {
     ...blog,
     likes: blog.likes + 1,
   })
@@ -34,7 +34,7 @@ const remove = (id) => {
     headers: { Authorization: `Bearer ${token}` },
   }
 
-  return axios.delete(`${baseURL}/${id}`, config)
+  return axios.delete(`${route}/${id}`, config)
 }
 
 export default {

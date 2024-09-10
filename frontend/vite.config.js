@@ -12,14 +12,6 @@ export default defineConfig({
       imports: ['vitest'],
     }),
   ],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3003',
-        changeOrigin: true,
-      },
-    },
-  },
   test: {
     environment: 'jsdom',
     globals: true,
