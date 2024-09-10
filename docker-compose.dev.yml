@@ -1,0 +1,36 @@
+services:
+  app:
+    container_name: blog-app
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    depends_on:
+      - backend
+    environment:
+      - VITE_BACKEND_URL=/api
+    ports:
+      - 5173:5173
+    volumes:
+      - ./frontend:/usr/src/app
+
+  backend:
+    container_name: blog-backend
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+    env_file: .env.local
+    ports:
+      - 3000:3000
+    volumes:
+      - ./backend:/usr/src/app
+
+  nginx:
+    container_name: blog-nginx
+    image: nginx:mainline-alpine
+    depends_on:
+      - app
+      - backend
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
